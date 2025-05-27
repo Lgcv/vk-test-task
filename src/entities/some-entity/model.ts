@@ -1,6 +1,6 @@
 import { makeAutoObservable } from 'mobx';
 
-interface Item {
+export interface Item {
   [key: string]: number;
 }
 
@@ -9,7 +9,7 @@ interface TableData {
   rows: Item[];
 }
 
-const createItem = (countField: number): Item => {
+export const createItem = (countField: number): Item => {
   return [...Array(countField)].reduce((res, _, i) => {
     res[`field${i}`] = Math.round(Math.random() * 100) / 100;
     return res;
@@ -31,7 +31,11 @@ class SomeEntityModel {
   }
 
   getData(countField: number) {
-    this.data = [...Array(150)].map(() => createItem(countField));
+    this.data = [...Array(10)].map(() => createItem(countField));
+  }
+
+  addItem(item: Item) {
+    this.data.push(item);
   }
 }
 
