@@ -1,3 +1,5 @@
+import { makeAutoObservable } from 'mobx';
+
 interface Item {
   [key: string]: number;
 }
@@ -20,3 +22,17 @@ export const getTableData = (countField: number): TableData => {
     rows: [...Array(150)].map(() => createItem(countField)),
   };
 };
+
+class SomeEntityModel {
+  data: Item[] = [];
+
+  constructor() {
+    makeAutoObservable(this);
+  }
+
+  getData(countField: number) {
+    this.data = [...Array(150)].map(() => createItem(countField));
+  }
+}
+
+export const model = new SomeEntityModel();

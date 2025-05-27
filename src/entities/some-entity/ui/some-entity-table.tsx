@@ -7,10 +7,17 @@ import {
   TableHead,
   TableRow,
 } from '@mui/material';
-import { getTableData } from '../model';
+import { model } from '../model';
+import { useEffect } from 'react';
+import { observer } from 'mobx-react-lite';
 
-export const SomeEntityTable = () => {
-  const tableData = getTableData(15);
+export const SomeEntityTable = observer(() => {
+  const countField = 15;
+  const data = model.data;
+
+  useEffect(() => {
+    model.getData(countField);
+  }, []);
 
   return (
     <TableContainer sx={{ maxHeight: '100%', overflow: 'auto' }} component={Paper}>
@@ -18,17 +25,17 @@ export const SomeEntityTable = () => {
         <TableHead>
           <TableRow>
             <TableCell align="left">№</TableCell>
-            {tableData.columns.map((name, i) => {
+            {[...Array(countField)].map((_, i) => {
               return (
                 <TableCell key={i} sx={{ whiteSpace: 'nowrap' }} align="left">
-                  {name}
+                  {`Поле ${i + 1}`}
                 </TableCell>
               );
             })}
           </TableRow>
         </TableHead>
         <TableBody>
-          {tableData.rows.map((row, i) => (
+          {data.map((row, i) => (
             <TableRow key={i} sx={{ '&:last-child td, &:last-child th': { border: 0 } }}>
               <TableCell>{i + 1}</TableCell>
               {Object.keys(row).map((field, i) => {
@@ -40,4 +47,4 @@ export const SomeEntityTable = () => {
       </Table>
     </TableContainer>
   );
-};
+});
