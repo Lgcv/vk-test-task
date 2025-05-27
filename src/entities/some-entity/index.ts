@@ -1,0 +1,1 @@
+export { SomeEntityTable } from './ui';
