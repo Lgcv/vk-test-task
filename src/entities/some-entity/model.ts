@@ -3,7 +3,7 @@ import type { AxiosResponse } from 'axios';
 import { type CreateEntityDto, type EntityDto, entityApi } from '@shared/api/entity';
 import { alertsModel } from '@shared/lib/alerts';
 
-type Entity = EntityDto;
+export type Entity = EntityDto;
 
 class SomeEntityModel {
   data: Entity[] = [];

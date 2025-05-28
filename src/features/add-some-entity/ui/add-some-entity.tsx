@@ -46,8 +46,6 @@ export const AddSomeEntity = () => {
               }}
             >
               {[...Array(countField)].map((_, i) => {
-                console.log('rerender text field');
-
                 return (
                   <Box key={i} sx={{ px: 1, pt: 2 }}>
                     <TextField

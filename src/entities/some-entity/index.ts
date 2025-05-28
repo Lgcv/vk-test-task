@@ -1,2 +1,2 @@
 export { SomeEntityTable } from './ui';
-export { model as someEntityModel } from './model';
+export { model as someEntityModel, type Entity } from './model';
