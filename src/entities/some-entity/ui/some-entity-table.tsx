@@ -1,17 +1,24 @@
-import { TableCell, TableRow } from '@mui/material';
-import { model } from '../model';
 import { observer } from 'mobx-react-lite';
+import { Box, TableCell, TableRow } from '@mui/material';
+import { Table } from '@shared/ui/table';
+import { model } from '../model';
 import { SomeEntityTableHead } from './some-entity-table-head';
 import { SomeEntityTableRow } from './some-entity-table-row';
-import { Table } from '@shared/ui/table';
+import { useScrollLoad } from '../hooks';
+import { Loader } from '@shared/ui/loader';
 
 export const SomeEntityTable = observer(() => {
   const data = model.data;
+  const isAdditionalLoading = model.isAdditionalLoading;
+
+  const { tableRef, onScrollHandler } = useScrollLoad();
 
   return (
     <>
       {data.length > 0 ? (
         <Table
+          onScroll={onScrollHandler}
+          ref={tableRef}
           head={<SomeEntityTableHead item={data[0]} />}
           rows={
             <>
@@ -21,6 +28,15 @@ export const SomeEntityTable = observer(() => {
                   <SomeEntityTableRow key={i} row={row} />
                 </TableRow>
               ))}
+            </>
+          }
+          footer={
+            <>
+              {isAdditionalLoading && (
+                <Box sx={{ display: 'flex', justifyContent: 'center', p: 4 }}>
+                  <Loader />
+                </Box>
+              )}
             </>
           }
         />
