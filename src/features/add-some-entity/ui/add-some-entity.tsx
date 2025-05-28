@@ -2,6 +2,10 @@ import { useForm } from 'react-hook-form';
 import { Box, Button, Paper, TextField } from '@mui/material';
 import { someEntityModel } from '@entities/some-entity';
 import type { CreateEntityDto } from '@shared/api/entity';
+import { model } from '../model';
+import { flowResult } from 'mobx';
+import { useEffect, useRef } from 'react';
+import type { CancellablePromise } from 'mobx/dist/internal';
 
 interface Inputs {
   [key: string]: string;
@@ -9,7 +13,9 @@ interface Inputs {
 
 export const AddSomeEntity = () => {
   const countField = Object.keys(someEntityModel.data[0] || {}).length;
-  const isLoading = someEntityModel.isLoadingAction;
+  const isLoading = model.isLoading;
+
+  const requestRef = useRef<CancellablePromise<unknown> | null>(null);
 
   const {
     register,
@@ -24,9 +30,18 @@ export const AddSomeEntity = () => {
       {},
     );
 
-    await someEntityModel.createItem(item);
-    reset();
+    requestRef.current = flowResult(model.createItem(item));
+
+    requestRef.current.finally(() => {
+      reset();
+    });
   };
+
+  useEffect(() => {
+    return () => {
+      requestRef.current?.cancel();
+    };
+  }, []);
 
   return (
     <>

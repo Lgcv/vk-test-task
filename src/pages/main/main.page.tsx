@@ -1,4 +1,5 @@
 import { useEffect } from 'react';
+import { flowResult } from 'mobx';
 import { observer } from 'mobx-react-lite';
 import { Box } from '@mui/material';
 import { someEntityModel, SomeEntityTable } from '@entities/some-entity';
@@ -9,7 +10,11 @@ export const MainPage = observer(() => {
   const isLoading = someEntityModel.isLoading;
 
   useEffect(() => {
-    someEntityModel.getData();
+    const request = flowResult(someEntityModel.getData());
+
+    return () => {
+      request.cancel();
+    };
   }, []);
 
   return (

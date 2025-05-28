@@ -1,6 +1,6 @@
 import { makeAutoObservable } from 'mobx';
 import type { AxiosResponse } from 'axios';
-import { type CreateEntityDto, type EntityDto, entityApi } from '@shared/api/entity';
+import { type EntityDto, entityApi } from '@shared/api/entity';
 import { alertsModel } from '@shared/lib/alerts';
 
 export type Entity = EntityDto;
@@ -15,6 +15,7 @@ class SomeEntityModel {
   }
 
   *getData() {
+    this.data = [];
     this.isLoading = true;
 
     try {
@@ -22,24 +23,13 @@ class SomeEntityModel {
       this.data = response.data.map(({ id, ...rest }) => ({ ...rest }));
     } catch {
       alertsModel.add({ type: 'error', text: 'Ошибка получения данных' });
+    } finally {
+      this.isLoading = false;
     }
-
-    this.isLoading = false;
   }
 
-  *createItem(data: CreateEntityDto) {
-    this.isLoadingAction = true;
-
-    try {
-      const response: AxiosResponse<EntityDto> = yield entityApi.create(data);
-      const { id, ...rest } = response.data;
-      this.data.push(rest);
-      alertsModel.add({ type: 'success', text: 'Запись добавлена' });
-    } catch {
-      alertsModel.add({ type: 'error', text: 'Ошибка добавления записи' });
-    }
-
-    this.isLoadingAction = false;
+  addCreatedItem(item: Entity) {
+    this.data.push(item);
   }
 }
 

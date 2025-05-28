@@ -1,0 +1,30 @@
+import { makeAutoObservable } from 'mobx';
+import type { AxiosResponse } from 'axios';
+import { type CreateEntityDto, type EntityDto, entityApi } from '@shared/api/entity';
+import { alertsModel } from '@shared/lib/alerts';
+import { someEntityModel } from '@entities/some-entity';
+
+class SomeEntityModel {
+  isLoading: boolean = false;
+
+  constructor() {
+    makeAutoObservable(this);
+  }
+
+  *createItem(data: CreateEntityDto) {
+    this.isLoading = true;
+
+    try {
+      const response: AxiosResponse<EntityDto> = yield entityApi.create(data);
+      const { id, ...rest } = response.data;
+      someEntityModel.addCreatedItem(rest);
+      alertsModel.add({ type: 'success', text: 'Запись добавлена' });
+    } catch {
+      alertsModel.add({ type: 'error', text: 'Ошибка добавления записи' });
+    } finally {
+      this.isLoading = false;
+    }
+  }
+}
+
+export const model = new SomeEntityModel();
