@@ -1,6 +1,7 @@
 import { makeAutoObservable } from 'mobx';
 import type { AxiosResponse } from 'axios';
 import { type EntityDto, entityApi } from '@shared/api/entity';
+import { alertsModel } from '@shared/lib/alerts';
 
 type Entity = EntityDto;
 
@@ -14,8 +15,14 @@ class SomeEntityModel {
 
   *getData() {
     this.isLoading = true;
-    const response: AxiosResponse<EntityDto[]> = yield entityApi.getAll();
-    this.data = response.data.map(({ id, ...rest }) => ({ ...rest }));
+
+    try {
+      const response: AxiosResponse<EntityDto[]> = yield entityApi.getAll();
+      this.data = response.data.map(({ id, ...rest }) => ({ ...rest }));
+    } catch {
+      alertsModel.add({ type: 'error', text: 'Ошибка получения данных' });
+    }
+
     this.isLoading = false;
   }
 
