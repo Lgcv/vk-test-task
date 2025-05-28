@@ -1,8 +1,17 @@
+import { useEffect } from 'react';
+import { observer } from 'mobx-react-lite';
 import { Box } from '@mui/material';
-import { SomeEntityTable } from '@entities/some-entity';
+import { someEntityModel, SomeEntityTable } from '@entities/some-entity';
 import { AddSomeEntity } from '@features/add-some-entity';
+import { Loader } from '@shared/ui/loader';
 
-export const MainPage = () => {
+export const MainPage = observer(() => {
+  const isLoading = someEntityModel.isLoading;
+
+  useEffect(() => {
+    someEntityModel.getData();
+  }, []);
+
   return (
     <Box
       sx={{
@@ -13,12 +22,22 @@ export const MainPage = () => {
         '& > *:not(:last-child)': { mb: 2 },
       }}
     >
-      <Box sx={{ flexGrow: 1, overflow: 'auto' }}>
-        <SomeEntityTable />
-      </Box>
-      <Box>
-        <AddSomeEntity />
-      </Box>
+      {isLoading ? (
+        <Box
+          sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center', flex: '1 1 auto' }}
+        >
+          <Loader />
+        </Box>
+      ) : (
+        <>
+          <Box sx={{ flexGrow: 1, overflow: 'auto' }}>
+            <SomeEntityTable />
+          </Box>
+          <Box>
+            <AddSomeEntity />
+          </Box>
+        </>
+      )}
     </Box>
   );
-};
+});

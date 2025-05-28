@@ -6,14 +6,17 @@ type Entity = EntityDto;
 
 class SomeEntityModel {
   data: Entity[] = [];
+  isLoading: boolean = false;
 
   constructor() {
     makeAutoObservable(this);
   }
 
   *getData() {
+    this.isLoading = true;
     const response: AxiosResponse<EntityDto[]> = yield entityApi.getAll();
     this.data = response.data.map(({ id, ...rest }) => ({ ...rest }));
+    this.isLoading = false;
   }
 
   addItem(item: Entity) {

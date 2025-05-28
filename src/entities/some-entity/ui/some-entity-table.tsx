@@ -8,16 +8,11 @@ import {
   TableRow,
 } from '@mui/material';
 import { model } from '../model';
-import { useEffect } from 'react';
 import { observer } from 'mobx-react-lite';
 
 export const SomeEntityTable = observer(() => {
   const countField = 15;
   const data = model.data;
-
-  useEffect(() => {
-    model.getData();
-  }, []);
 
   return (
     <TableContainer sx={{ maxHeight: '100%', overflow: 'auto' }} component={Paper}>
