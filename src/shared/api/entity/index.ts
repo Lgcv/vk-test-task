@@ -1,2 +1,2 @@
 export { entityApi } from './entityApi';
-export { type EntityDto } from './dto';
+export { type EntityDto, type CreateEntityDto } from './dto';
