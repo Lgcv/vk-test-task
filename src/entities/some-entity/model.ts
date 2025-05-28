@@ -1,40 +1,22 @@
 import { makeAutoObservable } from 'mobx';
+import type { AxiosResponse } from 'axios';
+import { type EntityDto, entityApi } from '@shared/api/entity';
 
-export interface Item {
-  [key: string]: number;
-}
-
-interface TableData {
-  columns: string[];
-  rows: Item[];
-}
-
-export const createItem = (countField: number): Item => {
-  return [...Array(countField)].reduce((res, _, i) => {
-    res[`field${i}`] = Math.round(Math.random() * 100) / 100;
-    return res;
-  }, {});
-};
-
-export const getTableData = (countField: number): TableData => {
-  return {
-    columns: [...Array(countField)].map((_, i) => `Поле ${i + 1}`),
-    rows: [...Array(150)].map(() => createItem(countField)),
-  };
-};
+type Entity = EntityDto;
 
 class SomeEntityModel {
-  data: Item[] = [];
+  data: Entity[] = [];
 
   constructor() {
     makeAutoObservable(this);
   }
 
-  getData(countField: number) {
-    this.data = [...Array(10)].map(() => createItem(countField));
+  *getData() {
+    const response: AxiosResponse<EntityDto[]> = yield entityApi.getAll();
+    this.data = response.data.map(({ id, ...rest }) => ({ ...rest }));
   }
 
-  addItem(item: Item) {
+  addItem(item: Entity) {
     this.data.push(item);
   }
 }

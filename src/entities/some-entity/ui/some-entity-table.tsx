@@ -16,7 +16,7 @@ export const SomeEntityTable = observer(() => {
   const data = model.data;
 
   useEffect(() => {
-    model.getData(countField);
+    model.getData();
   }, []);
 
   return (
