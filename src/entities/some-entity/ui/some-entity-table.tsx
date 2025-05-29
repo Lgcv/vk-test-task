@@ -19,15 +19,17 @@ export const SomeEntityTable = observer(() => {
         <Table
           onScroll={onScrollHandler}
           ref={tableRef}
-          head={<SomeEntityTableHead item={data[0]} />}
+          head={<SomeEntityTableHead />}
           rows={
             <>
-              {data.map((row, i) => (
-                <TableRow key={i} sx={{ '&:last-child td, &:last-child th': { border: 0 } }}>
-                  <TableCell>{i + 1}</TableCell>
-                  <SomeEntityTableRow key={i} row={row} />
-                </TableRow>
-              ))}
+              {data.map((row, i) => {
+                return (
+                  <TableRow key={row.id} sx={{ '&:last-child td, &:last-child th': { border: 0 } }}>
+                    <TableCell>{i + 1}</TableCell>
+                    <SomeEntityTableRow row={row} />
+                  </TableRow>
+                );
+              })}
             </>
           }
           footer={

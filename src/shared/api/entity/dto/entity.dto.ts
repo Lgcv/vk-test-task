@@ -1,3 +1,4 @@
 export interface EntityDto {
-  [key: string]: number;
+  id: number;
+  [key: string]: string | number;
 }

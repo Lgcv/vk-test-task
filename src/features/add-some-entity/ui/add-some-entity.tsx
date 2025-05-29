@@ -1,18 +1,16 @@
+import { useEffect, useRef } from 'react';
+import { flowResult } from 'mobx';
 import { useForm } from 'react-hook-form';
+import type { CancellablePromise } from 'mobx/dist/internal';
 import { Box, Button, Paper, TextField } from '@mui/material';
 import { someEntityModel } from '@entities/some-entity';
 import type { CreateEntityDto } from '@shared/api/entity';
 import { model } from '../model';
-import { flowResult } from 'mobx';
-import { useEffect, useRef } from 'react';
-import type { CancellablePromise } from 'mobx/dist/internal';
 
-interface Inputs {
-  [key: string]: string;
-}
+type Inputs = CreateEntityDto;
 
 export const AddSomeEntity = () => {
-  const countField = Object.keys(someEntityModel.data[0] || {}).length;
+  const columns = someEntityModel.columns;
   const isLoading = model.isLoading;
 
   const requestRef = useRef<CancellablePromise<unknown> | null>(null);
@@ -25,12 +23,7 @@ export const AddSomeEntity = () => {
   } = useForm<Inputs>({ mode: 'onTouched' });
 
   const onAddSomeEntity = async (data: Inputs) => {
-    const item = Object.keys(data).reduce(
-      (res: CreateEntityDto, key) => ({ ...res, [key]: +data[key] }),
-      {},
-    );
-
-    requestRef.current = flowResult(model.createItem(item));
+    requestRef.current = flowResult(model.createItem(data));
 
     requestRef.current.finally(() => {
       reset();
@@ -45,7 +38,7 @@ export const AddSomeEntity = () => {
 
   return (
     <>
-      {countField > 0 ? (
+      {Object.keys(columns).length > 0 ? (
         <Paper sx={{ p: 2 }} elevation={2}>
           <form onSubmit={handleSubmit(onAddSomeEntity)}>
             <Box
@@ -60,17 +53,17 @@ export const AddSomeEntity = () => {
                 },
               }}
             >
-              {[...Array(countField)].map((_, i) => {
+              {Object.keys(columns).map((field) => {
                 return (
-                  <Box key={i} sx={{ px: 1, pt: 2 }}>
+                  <Box key={field} sx={{ px: 1, pt: 2 }}>
                     <TextField
                       variant="outlined"
                       size="small"
                       fullWidth
-                      label={`Поле ${i + 1}`}
-                      {...register(`field${i}`, { required: 'Поле обязательно для заполнения' })}
-                      helperText={errors[`field${i}`]?.message}
-                      {...(errors[`field${i}`]?.message ? { error: true } : { error: false })}
+                      label={`${columns[field]}`}
+                      {...register(field, { required: 'Поле обязательно для заполнения' })}
+                      helperText={errors[field]?.message}
+                      {...(errors[field]?.message ? { error: true } : { error: false })}
                     />
                   </Box>
                 );

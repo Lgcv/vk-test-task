@@ -1,3 +1,3 @@
 import type { EntityDto } from './entity.dto';
 
-export type CreateEntityDto = EntityDto;
+export type CreateEntityDto = Omit<EntityDto, 'id'>;

@@ -16,8 +16,7 @@ class SomeEntityModel {
 
     try {
       const response: AxiosResponse<EntityDto> = yield entityApi.create(data);
-      const { id, ...rest } = response.data;
-      someEntityModel.addCreatedItem(rest);
+      someEntityModel.addCreatedItem(response.data);
       alertsModel.add({ type: 'success', text: 'Запись добавлена' });
     } catch {
       alertsModel.add({ type: 'error', text: 'Ошибка добавления записи' });

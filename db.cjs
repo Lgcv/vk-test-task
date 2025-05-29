@@ -6,6 +6,14 @@ module.exports = () => {
   const countFields = getRandomNum(minFields, maxFields);
   const fields = Object.keys(mapFieldsToGenerateFunction).slice(0, countFields);
 
+  const columnsInfo = Object.keys(fieldsMapToName)
+    .slice(0, countFields)
+    .reduce((res, field) => {
+      return { ...res, [field]: fieldsMapToName[field] };
+    }, {});
+
+  data.entities.push(columnsInfo);
+
   for (let i = 0; i < 50; i++) {
     const item = fields.reduce((res, field) => {
       return { ...res, [field]: mapFieldsToGenerateFunction[field]() };
@@ -67,4 +75,22 @@ const mapFieldsToGenerateFunction = {
   countFriends: () => getRandomNum(0, 20),
   rating: () => getRandomNum(0, 10),
   countSubscribers: () => getRandomNum(0, 30),
+};
+
+const fieldsMapToName = {
+  title: 'Название',
+  description: 'Описание',
+  city: 'Город',
+  phone: 'Телефон',
+  email: 'e-mail',
+  website: 'Сайт',
+  username: 'Имя пользователя',
+  firstName: 'Имя',
+  lastName: 'Фамилия',
+  countLikes: 'Количество реакций',
+  status: 'Статус',
+  countProjects: 'Количество проектов',
+  countFriends: 'Количество друзей',
+  rating: 'Рейтинг',
+  countSubscribers: 'Количество подписчиков',
 };
