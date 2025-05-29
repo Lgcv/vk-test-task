@@ -6,6 +6,7 @@ import { Box, Button, Paper, TextField } from '@mui/material';
 import { someEntityModel } from '@entities/some-entity';
 import type { CreateEntityDto } from '@shared/api/entity';
 import { model } from '../model';
+import { validators } from '@shared/lib/validators';
 
 type Inputs = CreateEntityDto;
 
@@ -61,7 +62,12 @@ export const AddSomeEntity = () => {
                       size="small"
                       fullWidth
                       label={`${columns[field]}`}
-                      {...register(field, { required: 'Поле обязательно для заполнения' })}
+                      {...register(
+                        field,
+                        validators[field as keyof typeof validators] || {
+                          required: 'Поле обязательно для заполнения',
+                        },
+                      )}
                       helperText={errors[field]?.message}
                       {...(errors[field]?.message ? { error: true } : { error: false })}
                     />
