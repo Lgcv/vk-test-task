@@ -6,7 +6,7 @@ import type { EntityColumnsDto, GetEntityResponse } from '@shared/api/entity';
 
 export type Entity = EntityDto;
 
-class SomeEntityModel {
+export class SomeEntityModel {
   data: Entity[] = [];
   columns: EntityColumnsDto = {};
   addedEntities: number[] = [];
@@ -21,11 +21,8 @@ class SomeEntityModel {
   }
 
   *getData() {
-    this.data = [];
-    this.columns = {};
-    this.addedEntities = [];
+    this.reset();
     this.isLoading = true;
-    this.countQueries = 1;
 
     try {
       const response: AxiosResponse<GetEntityResponse> = yield entityApi.getAll();
@@ -43,6 +40,8 @@ class SomeEntityModel {
     this.isAdditionalLoading = true;
 
     try {
+      if (this.isAdditionalDataComplete) return;
+
       const response: AxiosResponse<EntityDto[]> = yield entityApi.getAll({
         start: this.countQueries * 20,
       });
@@ -64,6 +63,15 @@ class SomeEntityModel {
 
   resetAdditional() {
     this.isAdditionalDataComplete = false;
+  }
+
+  reset() {
+    this.data = [];
+    this.columns = {};
+    this.addedEntities = [];
+    this.isLoading = false;
+    this.countQueries = 1;
+    this.resetAdditional();
   }
 }
 
