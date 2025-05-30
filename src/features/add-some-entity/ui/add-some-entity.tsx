@@ -2,7 +2,8 @@ import { useEffect, useRef } from 'react';
 import { flowResult } from 'mobx';
 import { useForm } from 'react-hook-form';
 import type { CancellablePromise } from 'mobx/dist/internal';
-import { Box, Button, Paper, TextField } from '@mui/material';
+import { Box, Button, Paper } from '@mui/material';
+import { TextField } from '@shared/ui/text-field';
 import { someEntityModel } from '@entities/some-entity';
 import type { CreateEntityDto } from '@shared/api/entity';
 import { model } from '../model';
@@ -58,9 +59,6 @@ export const AddSomeEntity = () => {
                 return (
                   <Box key={field} sx={{ px: 1, pt: 2 }}>
                     <TextField
-                      variant="outlined"
-                      size="small"
-                      fullWidth
                       label={`${columns[field]}`}
                       {...register(
                         field,
