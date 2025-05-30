@@ -1,4 +1,4 @@
-import { TableCell } from '@mui/material';
+import { TableCell } from '@shared/ui/table-cell';
 import { observer } from 'mobx-react-lite';
 import { model } from '../model';
 

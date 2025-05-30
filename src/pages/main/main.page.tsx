@@ -1,7 +1,7 @@
 import { useEffect } from 'react';
 import { flowResult } from 'mobx';
 import { observer } from 'mobx-react-lite';
-import { Box } from '@mui/material';
+import { Box, Paper } from '@mui/material';
 import { someEntityModel, SomeEntityTable } from '@entities/some-entity';
 import { AddSomeEntity } from '@features/add-some-entity';
 import { Loader } from '@shared/ui/loader';
@@ -24,7 +24,7 @@ export const MainPage = observer(() => {
         height: '100%',
         display: 'flex',
         flexDirection: 'column',
-        '& > *:not(:last-child)': { mb: 2 },
+        '& > *:not(:last-child)': { mb: 4 },
       }}
     >
       {isLoading ? (
@@ -35,9 +35,9 @@ export const MainPage = observer(() => {
         </Box>
       ) : (
         <>
-          <Box sx={{ flexGrow: 1, overflow: 'auto' }}>
+          <Paper sx={{ flexGrow: 1, overflow: 'auto' }} elevation={4}>
             <SomeEntityTable />
-          </Box>
+          </Paper>
           <Box>
             <AddSomeEntity />
           </Box>

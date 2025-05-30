@@ -1,5 +1,4 @@
 import {
-  Paper,
   Table as MaterialTable,
   TableContainer,
   TableHead,
@@ -16,7 +15,7 @@ interface Props extends ComponentProps<typeof TableContainer> {
 
 export const Table = ({ head, rows, footer, ...rest }: Props) => {
   return (
-    <TableContainer sx={{ maxHeight: '100%', overflow: 'auto' }} component={Paper} {...rest}>
+    <TableContainer sx={{ maxHeight: '100%', overflow: 'auto' }} {...rest}>
       <MaterialTable stickyHeader>
         <TableHead>
           <TableRow>{head}</TableRow>

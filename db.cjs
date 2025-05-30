@@ -84,7 +84,7 @@ const fieldsMapToName = {
   phone: 'Телефон',
   email: 'e-mail',
   website: 'Сайт',
-  username: 'Имя пользователя',
+  username: 'Логин',
   firstName: 'Имя',
   lastName: 'Фамилия',
   countLikes: 'Количество реакций',

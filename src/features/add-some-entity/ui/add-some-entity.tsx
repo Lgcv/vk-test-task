@@ -40,7 +40,7 @@ export const AddSomeEntity = () => {
   return (
     <>
       {Object.keys(columns).length > 0 ? (
-        <Paper sx={{ p: 2 }} elevation={2}>
+        <Paper sx={{ p: 2 }} elevation={4}>
           <form onSubmit={handleSubmit(onAddSomeEntity)}>
             <Box
               sx={{
