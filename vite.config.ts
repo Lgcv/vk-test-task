@@ -1,4 +1,4 @@
-import { defineConfig } from 'vite';
+import { defineConfig } from 'vitest/config';
 import react from '@vitejs/plugin-react';
 // @ts-expect-error for disable error declaration file for module
 import eslint from 'vite-plugin-eslint';
@@ -7,6 +7,11 @@ import path from 'path';
 // https://vite.dev/config/
 export default defineConfig({
   plugins: [react(), eslint()],
+  test: {
+    globals: true,
+    environment: 'jsdom',
+    setupFiles: ['./tests/setup.ts'],
+  },
   resolve: {
     alias: {
       '@': path.resolve(__dirname, './src'),
