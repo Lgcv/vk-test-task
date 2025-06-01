@@ -8,9 +8,8 @@ export const useScrollLoad = () => {
   const requestRef = useRef<CancellablePromise<unknown> | null>(null);
 
   const onLoadHandler = () => {
-    if (!model.isAdditionalDataComplete && !model.isAdditionalLoading) {
-      requestRef.current = flowResult(model.getAdditionalData());
-    }
+    if (model.isAdditionalDataComplete || model.isAdditionalLoading) return;
+    requestRef.current = flowResult(model.getAdditionalData());
   };
 
   useEffect(() => {
