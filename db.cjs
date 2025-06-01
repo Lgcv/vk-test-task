@@ -14,7 +14,7 @@ module.exports = () => {
 
   data.entities.push(columnsInfo);
 
-  for (let i = 0; i < 50; i++) {
+  for (let i = 0; i < 100; i++) {
     const item = fields.reduce((res, field) => {
       return { ...res, [field]: mapFieldsToGenerateFunction[field]() };
     }, {});
