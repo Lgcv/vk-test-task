@@ -1,54 +1,54 @@
-# React + TypeScript + Vite
+## Технологический стек
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+- React + vite + typescript
+- Mobx
+- React hook form
+- Material ui
 
-Currently, two official plugins are available:
+Архитектура приложения основана на методологии Feature sliced design.
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+## Обоснование использования стейт менеджера
 
-## Expanding the ESLint configuration
+Стейт менеджер упрощает взаимодействие с данными, которые могут являться глобальными для всего приложения или какого-то его модуля, избегая определенных неудобств, таких как prop drilling. Также использование стейт менеджера позволяет нам использовать его как слой, в котором происходит логика изменения данных приложения. Компоненты в свою очередь являются ui слоем, который получает данные стора и предоставляет интерфейс для запуска разных событий, которые будут изменять эти данные.
 
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
+Безусловно, в таком небольшом приложении использование стейт менеджера может быть и лишним, но хотелось продемонстрировать подходы, которых я придерживался бы при выполнении реальных задач.
+
+## Почему mobx?
+
+До недавнего времени мне доводилось работать со стейт менеджерами redux и effector.
+Mobx - один из актуальных стейт менеджеров, используемых с react, с которым я никогда не работал. До выполнения тестового задания я начал его изучать, разрабатывая pet проект. Сейчас я решил что это будет неплохой выбор, учитывая, что в информации о стажировке было указано, что желателен опыт использования effector и mobx.
+
+## Принцип работы сервера
+
+Каждый раз при запуске сервера (npm run server) генерируется случайное число от 5 до 15, определяющее количество полей, содержащихся в сгенерированных данных. Список возможных полей заранее предопределен. В зависимости от поля генерируется соответствующее значение. Текущая реализация подразумевает генерацию массива из 100 записей. Клиент запрашивает данные частями по 20 элементов.
+
+Реализацию данной логики можно просмотреть в файле db.cjs.
+
+Для демонстрации взаимодействия с api, максимально приближенного к реальному приложению, установлена задержка в 1 секунду перед получением ответа от сервера.
+
+## Тестирование приложения
+
+Для написания тестов использовались vitest + react testing library.
+
+В результате были протестированы модели для entities и features, рендер компонентов страницы, взаимодействие пользователя с формой.
+
+Для запуска тестов необходимо выполнить команду
 
 ```js
-export default tseslint.config({
-  extends: [
-    // Remove ...tseslint.configs.recommended and replace with this
-    ...tseslint.configs.recommendedTypeChecked,
-    // Alternatively, use this for stricter rules
-    ...tseslint.configs.strictTypeChecked,
-    // Optionally, add this for stylistic rules
-    ...tseslint.configs.stylisticTypeChecked,
-  ],
-  languageOptions: {
-    // other options...
-    parserOptions: {
-      project: ['./tsconfig.node.json', './tsconfig.app.json'],
-      tsconfigRootDir: import.meta.dirname,
-    },
-  },
-})
+npm run test
 ```
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
+## Запуск проекта
+
+Поместить код проекта в отдельный каталог, открыть его в терминале и выполнить команду для установки зависимостей проекта
 
 ```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
+npm i
+```
 
-export default tseslint.config({
-  plugins: {
-    // Add the react-x and react-dom plugins
-    'react-x': reactX,
-    'react-dom': reactDom,
-  },
-  rules: {
-    // other rules...
-    // Enable its recommended typescript rules
-    ...reactX.configs['recommended-typescript'].rules,
-    ...reactDom.configs.recommended.rules,
-  },
-})
+Далее в отдельных терминалах выполнить команды
+
+```js
+npm run server // для запуска сервера
+npm run dev // для запуска клиента
 ```
