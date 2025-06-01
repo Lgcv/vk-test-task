@@ -59,6 +59,7 @@ export const AddSomeEntity = () => {
                 return (
                   <Box key={field} sx={{ px: 1, pt: 2 }}>
                     <TextField
+                      data-testid={'input'}
                       label={`${columns[field]}`}
                       {...register(
                         field,

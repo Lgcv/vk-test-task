@@ -4,7 +4,7 @@ import { type CreateEntityDto, type EntityDto, entityApi } from '@shared/api/ent
 import { alertsModel } from '@shared/lib/alerts';
 import { someEntityModel } from '@entities/some-entity';
 
-class SomeEntityModel {
+export class AddSomeEntityModel {
   isLoading: boolean = false;
 
   constructor() {
@@ -26,4 +26,4 @@ class SomeEntityModel {
   }
 }
 
-export const model = new SomeEntityModel();
+export const model = new AddSomeEntityModel();

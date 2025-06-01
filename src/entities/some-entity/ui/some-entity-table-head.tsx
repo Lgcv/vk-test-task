@@ -10,7 +10,12 @@ export const SomeEntityTableHead = observer(() => {
       <TableCell align="left">№</TableCell>
       {Object.keys(columns).map((field) => {
         return (
-          <TableCell key={field} sx={{ whiteSpace: 'nowrap' }} align="left">
+          <TableCell
+            key={field}
+            sx={{ whiteSpace: 'nowrap' }}
+            align="left"
+            data-testid="table-column"
+          >
             {`${columns[field]}`}
           </TableCell>
         );

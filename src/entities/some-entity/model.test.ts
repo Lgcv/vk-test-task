@@ -1,7 +1,7 @@
 import { http } from '@shared/lib/http';
 import { describe, expect, test, vi } from 'vitest';
 import { type GetEntityResponse } from '@shared/api/entity';
-import { createdSomeEntityItem, someEntityData } from './_mock';
+import { createdSomeEntityItem, someEntityData } from './__mock__';
 import { SomeEntityModel } from './model';
 
 vi.mock('@shared/lib/http');

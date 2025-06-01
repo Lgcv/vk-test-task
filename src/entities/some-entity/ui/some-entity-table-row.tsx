@@ -13,7 +13,7 @@ export const SomeEntityTableRow = observer(({ row }: Props) => {
   return (
     <>
       {Object.keys(columns).map((field) => {
-        return <TableCell>{row[field]}</TableCell>;
+        return <TableCell key={field}>{row[field]}</TableCell>;
       })}
     </>
   );

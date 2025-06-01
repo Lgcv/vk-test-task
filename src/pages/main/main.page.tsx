@@ -35,7 +35,7 @@ export const MainPage = observer(() => {
         </Box>
       ) : (
         <>
-          <Paper sx={{ flexGrow: 1, overflow: 'auto' }} elevation={4}>
+          <Paper sx={{ flexGrow: 1, overflow: 'auto' }} elevation={4} data-testid="table-container">
             <SomeEntityTable />
           </Paper>
           <Box>
