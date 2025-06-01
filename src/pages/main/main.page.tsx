@@ -7,6 +7,7 @@ import { AddSomeEntity } from '@features/add-some-entity';
 import { Loader } from '@shared/ui/loader';
 
 export const MainPage = observer(() => {
+  const data = someEntityModel.data;
   const isLoading = someEntityModel.isLoading;
 
   useEffect(() => {
@@ -35,12 +36,31 @@ export const MainPage = observer(() => {
         </Box>
       ) : (
         <>
-          <Paper sx={{ flexGrow: 1, overflow: 'auto' }} elevation={4} data-testid="table-container">
-            <SomeEntityTable />
-          </Paper>
-          <Box>
-            <AddSomeEntity />
-          </Box>
+          {data.length > 0 ? (
+            <>
+              <Paper
+                sx={{ flexGrow: 1, overflow: 'auto', paddingBottom: '0.5rem' }}
+                elevation={4}
+                data-testid="table-container"
+              >
+                <SomeEntityTable />
+              </Paper>
+              <Box>
+                <AddSomeEntity />
+              </Box>
+            </>
+          ) : (
+            <Box
+              sx={{
+                flex: '1 1 auto',
+                display: 'flex',
+                justifyContent: 'center',
+                alignItems: 'center',
+              }}
+            >
+              Данные отсутствуют
+            </Box>
+          )}
         </>
       )}
     </Box>
