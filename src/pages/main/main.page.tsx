@@ -15,6 +15,7 @@ export const MainPage = observer(() => {
 
     return () => {
       request.cancel();
+      someEntityModel.reset();
     };
   }, []);
 
